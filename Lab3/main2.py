@@ -1,9 +1,8 @@
-# Функция для подсчета количества каждой буквы
 def count_letters(text):
     letter_count = {}
-    # Приводим текст к нижнему регистру и проходим по каждому символу
-    for char in text.lower():
-        if char.isalpha():  # Проверяем, является ли символ буквой
+    for char in text:
+        if char.isalpha():
+            char = char.lower()
             if char in letter_count:
                 letter_count[char] += 1
             else:
@@ -11,18 +10,18 @@ def count_letters(text):
     return letter_count
 
 
-# Функция для вычисления частоты каждой буквы
 def calculate_frequency(letter_count):
-    total_letters = sum(letter_count.values())  # Общее количество букв
-    frequency = {}
+    total_letters = sum(letter_count.values())
+    letter_frequency = {}
 
-    # Вычисляем частоту для каждой буквы
     for letter, count in letter_count.items():
-        frequency[letter] = round(count / total_letters, 2)  # Округляем до двух знаков
-    return frequency
+        frequency = count / total_letters
+        # Форматируем число как строку с двумя знаками после запятой
+        letter_frequency[letter] = f"{frequency:.2f}"
+
+    return letter_frequency
 
 
-# Основной текст
 main_str = """
 У лукоморья дуб зелёный;
 Златая цепь на дубе том:
@@ -59,17 +58,10 @@ main_str = """
 Свои мне сказки говорил.
 """
 
-# Подсчёт букв в тексте
-letter_counts = count_letters(main_str)
+# TODO Распечатайте в столбик букву и её частоту в тексте
+letter_count = count_letters(main_str)
 
-# Вычисление частоты букв
-letter_frequencies = calculate_frequency(letter_counts)
+letter_frequency = calculate_frequency(letter_count)
 
-# Ожидаемый порядок букв
-expected_order = ['у', 'л', 'к', 'о', 'м', 'р', 'ь', 'я', 'д', 'б', 'з', 'е', 'ё', 'н', 'ы', 'й', 'а', 'т', 'ц', 'п',
-                  'и', 'ч', 'ю', 'в', 'с', 'х', 'г', 'ш', 'ж', 'щ']
-
-# Вывод частоты букв в нужном порядке
-for letter in expected_order:
-    freq = letter_frequencies.get(letter, 0)  # Получаем частоту, если буква есть, иначе 0
-    print(f"{letter}: {freq:.2f}")
+for letter, frequency in letter_frequency.items():
+    print(f"{letter}: {frequency}")
